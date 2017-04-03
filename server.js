@@ -61,6 +61,7 @@ app.get('/restaurants/:id', (req, res) => {
 
 app.post('/restaurants', (req, res) => {
 
+<<<<<<< HEAD
     const requiredFields = ['name', 'borough', 'cuisine'];
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
@@ -87,6 +88,31 @@ app.post('/restaurants', (req, res) => {
                 message: 'Internal server error'
             });
         });
+=======
+  const requiredFields = ['name', 'borough', 'cuisine'];
+  for (let i=0; i<requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  Restaurant
+    .create({
+      name: req.body.name,
+      borough: req.body.borough,
+      cuisine: req.body.cuisine,
+      grades: req.body.grades,
+      address: req.body.address})
+    .then(
+      restaurant => res.status(201).json(restaurant.apiRepr()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
+>>>>>>> origin/feature/with-tests
 });
 
 
@@ -149,6 +175,7 @@ app.use('*', function (req, res) {
 let server;
 
 // this function connects to our database, then starts the server
+<<<<<<< HEAD
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
 
     return new Promise((resolve, reject) => {
@@ -165,6 +192,23 @@ function runServer(databaseUrl = DATABASE_URL, port = PORT) {
                     reject(err);
                 });
         });
+=======
+function runServer(databaseUrl=DATABASE_URL, port=PORT) {
+
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, err => {
+      if (err) {
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Your app is listening on port ${port}`);
+        resolve();
+      })
+      .on('error', err => {
+        mongoose.disconnect();
+        reject(err);
+      });
+>>>>>>> origin/feature/with-tests
     });
 }
 
