@@ -57,7 +57,7 @@ function generateGrade() {
         grade: grade
     }
 }
-
+//test
 // generate an object represnting a restaurant.
 // can be used to generate seed data for db
 // or request.body data
